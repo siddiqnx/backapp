@@ -1,0 +1,5 @@
+lib/
+*.lib
+*.dll
+*.jar
+*.class

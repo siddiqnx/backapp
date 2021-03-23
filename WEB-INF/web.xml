@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  
+  <servlet>
+    <servlet-name>BackApp</servlet-name>
+    <servlet-class>backapp.controller.BackApp</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BackApp</servlet-name>
+    <url-pattern>/backups</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CreateBackup</servlet-name>
+    <servlet-class>backapp.controller.CreateBackup</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateBackup</servlet-name>
+    <url-pattern>/backups/create</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>RestoreBackup</servlet-name>
+    <servlet-class>backapp.controller.RestoreBackup</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RestoreBackup</servlet-name>
+    <url-pattern>/backups/restore</url-pattern>
+  </servlet-mapping>
+
+</web-app>
