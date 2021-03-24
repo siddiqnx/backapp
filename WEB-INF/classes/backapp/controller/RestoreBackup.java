@@ -36,6 +36,8 @@ public class RestoreBackup extends HttpServlet{
       password
     );
 
-		response.sendRedirect(request.getContextPath() + "/backups");
+    request.setAttribute("success", backupRestored);
+
+    request.getRequestDispatcher("/backups").forward(request, response);
 	}
 }

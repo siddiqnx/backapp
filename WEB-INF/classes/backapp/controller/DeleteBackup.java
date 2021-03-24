@@ -39,6 +39,8 @@ public class DeleteBackup extends HttpServlet {
       db.deleteBackup(backupId);
     }
 
-		response.sendRedirect(request.getContextPath() + "/backups");
+    request.setAttribute("success", backupDeleted);
+
+    request.getRequestDispatcher("/backups").forward(request, response);
 	}
 }

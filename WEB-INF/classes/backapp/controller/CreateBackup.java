@@ -12,7 +12,7 @@ import backapp.nativelink.BackupC;
 import backapp.database.BackupDB;
 
 public class CreateBackup extends HttpServlet {
-  protected void doPost(
+  protected void doGet(
     HttpServletRequest request,
     HttpServletResponse response
   ) throws ServletException, IOException {
@@ -48,6 +48,8 @@ public class CreateBackup extends HttpServlet {
       );
     }
 
-		response.sendRedirect(request.getContextPath() + "/backups");
+    request.setAttribute("success", backupCreated);
+
+    request.getRequestDispatcher("/backups").forward(request, response);
 	}
 }

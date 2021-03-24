@@ -14,7 +14,7 @@
     <link href="${path}/css/style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-
+  
     <div class="layout">
       <header id="header" class="row valign-wrapper">
         <h3 class="col s8 page-title valign">BackApp</h3>
@@ -31,7 +31,7 @@
             <div class="row">
 
               <!-- Create Backup Form -->
-              <form id="create-backup" class="col s10" action="${path}/backups/create" method="POST">
+              <form id="create-backup" class="col s10" action="${path}/backups/create" method="GET">
                 
                 <div class="row">
                   <div class="input-field col s12">
@@ -81,7 +81,7 @@
                     <td>${backup.source}</td>
                     <td>${backup.destination}</td>
                     <td>${backup.timestamp.toString()}</td>
-                    <td><a class="restore-btn waves-effect waves-teal btn-flat grey lighten-5" href="#">Restore</a></td>
+                    <td><a class="restore-btn waves-effect waves-teal btn-flat grey lighten-4" href="#">Restore</a></td>
                     <td>
                       <a href="#">
                         <img
@@ -123,11 +123,15 @@
         </div>
       </div>
     </div>
-
+    
     <script src="${path}/js/materialize.min.js"></script>
     <script defer>
       const backupsTable = document.querySelector('#backups-table');
       const restoreModal = document.querySelector('#restore-modal');
+      
+      <c:if test="${success}">
+        M.toast({html: 'Task successful!'});
+      </c:if>
       
       M.Modal.init(restoreModal);
       const modal = M.Modal.getInstance(restoreModal);

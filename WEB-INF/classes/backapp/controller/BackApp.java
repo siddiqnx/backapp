@@ -20,9 +20,9 @@ public class BackApp extends HttpServlet{
   HttpSession session = request.getSession();
   
   List<Backup> backups = db.getAllBackups();
-  
-  request.setAttribute("backups", backups);
 
+  request.setAttribute("backups", backups);
+  
   request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 }
