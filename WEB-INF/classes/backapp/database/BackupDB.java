@@ -34,6 +34,7 @@ public class BackupDB extends DB {
       statement.setTimestamp(3, timestamp);
       
       int numRecords = statement.executeUpdate();
+
       if(numRecords <= 0) {
         return false;
       }
@@ -43,6 +44,35 @@ public class BackupDB extends DB {
       closeConnection();
     }
 
+    return true;
+  }
+  
+  public boolean deleteBackup(int id) {
+    try {
+      if(connection.isClosed()) {
+        setConnection();
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    }
+
+    String query = DBQueries.DELETE_BACKUP(id);
+
+    try {
+      Statement statement = connection.createStatement();
+      
+      int numRecords = statement.executeUpdate(query);
+
+      if(numRecords <= 0) {
+        return false;
+      }
+
+    } catch(SQLException e) {
+      e.printStackTrace();
+    } finally {
+      closeConnection();
+    }
+    
     return true;
   }
   

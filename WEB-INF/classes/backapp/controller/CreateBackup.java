@@ -8,10 +8,10 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.ServletException;
 
-import backapp.nativelink.Backup;
+import backapp.nativelink.BackupC;
 import backapp.database.BackupDB;
 
-public class CreateBackup extends HttpServlet{
+public class CreateBackup extends HttpServlet {
   protected void doPost(
     HttpServletRequest request,
     HttpServletResponse response
@@ -20,7 +20,7 @@ public class CreateBackup extends HttpServlet{
     String _destination = (String) request.getParameter("destination");
     String encryptionKey = (String) request.getParameter("ekey");
     
-    Backup backup = new Backup();
+    BackupC backup = new BackupC();
     
     String source = _source.replace("\\", "/");
     String destination = _destination.replace("\\", "/");

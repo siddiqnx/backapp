@@ -27,5 +27,14 @@
     <servlet-name>RestoreBackup</servlet-name>
     <url-pattern>/backups/restore</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>DeleteBackup</servlet-name>
+    <servlet-class>backapp.controller.DeleteBackup</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteBackup</servlet-name>
+    <url-pattern>/backups/delete</url-pattern>
+  </servlet-mapping>
 
 </web-app>

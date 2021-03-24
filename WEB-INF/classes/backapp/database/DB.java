@@ -14,7 +14,7 @@ public class DB {
     setConnection();
   }
 
-  private void setConnection() {
+  protected void setConnection() {
     try {
       Class.forName("org.postgresql.Driver");
       connection = DriverManager.getConnection(

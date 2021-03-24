@@ -41,7 +41,16 @@ public class DBQueries {
       Config.DB_BACKUP_TABLE + " " +
       "WHERE id=" + id;
       
-      return query;
+    return query;
+  }
+  
+  public static String DELETE_BACKUP(int id) {
+    String query =
+      "DELETE FROM " +
+      Config.DB_BACKUP_TABLE + " " +
+      "WHERE id=" + id;
+
+    return query;
   }
 
 }

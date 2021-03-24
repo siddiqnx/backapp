@@ -1,7 +1,7 @@
 #include <iostream>
 #include <chrono>
 
-#include "include/backapp_nativelink_Backup.h"
+#include "include/backapp_nativelink_BackupC.h"
 #include "include/CkZip.h"
 #include "include/CkDirTree.h"
 #include "include/CkFileAccess.h"
@@ -11,7 +11,7 @@
 #include "include/CkCompression.h"
 #include "include/CkGzip.h"
 
-jboolean Java_backapp_nativelink_Backup_createBackup(
+jboolean Java_backapp_nativelink_BackupC_createBackup(
   JNIEnv *env,
   jobject obj,
   jstring jsource, 
@@ -90,7 +90,7 @@ jboolean Java_backapp_nativelink_Backup_createBackup(
 
     zip.AppendBd(dirTree.relativePath(), bdata);
 
-    // When compressed, the files last modified date changes.
+    // When compressed, the file's last modified date changes.
     // This is to reset the last modified date back to original.
     entry = zip.FirstMatchingEntry(dirTree.relativePath());
     entry->SetDt(*(fileAccess.GetLastModified(dirTree.fullPath())));
@@ -123,7 +123,7 @@ jboolean Java_backapp_nativelink_Backup_createBackup(
 	return true;
 }
 
-jboolean Java_backapp_nativelink_Backup_restoreBackup(
+jboolean Java_backapp_nativelink_BackupC_restoreBackup(
   JNIEnv *env,
   jobject obj,
   jstring jbackupFilePath,
@@ -237,6 +237,51 @@ jboolean Java_backapp_nativelink_Backup_restoreBackup(
   } while (shouldContinue);
   delete entry;
   zip.CloseZip();
+
+  return true;
+}
+
+jboolean Java_backapp_nativelink_BackupC_deleteBackup(
+  JNIEnv *env,
+  jobject obj,
+  jstring jbackupFilePath,
+  jstring jdecryptionKey
+) {
+  CkFileAccess fileAccess;
+  CkZip zip;
+
+  const char *convertedValue;
+
+  // Converting all jstring values to strings
+  jboolean isCopy;
+  convertedValue = (env)->GetStringUTFChars(jbackupFilePath, &isCopy);
+  std::string backupFilePath = std::string(convertedValue);
+
+  convertedValue = (env)->GetStringUTFChars(jdecryptionKey, &isCopy);
+  std::string decryptionKey = std::string(convertedValue);
+ 
+  bool backupFileExists = fileAccess.FileExists(backupFilePath.c_str());
+
+  if(!backupFileExists) {
+    return true;
+  }
+
+  zip.OpenZip(backupFilePath.c_str());
+
+  zip.put_DecryptPassword(decryptionKey.c_str());
+
+  bool isPasswordOk = zip.VerifyPassword();
+  zip.CloseZip();
+
+  if(!isPasswordOk) {
+    return false;
+  }
+
+  bool fileDeleted = fileAccess.FileDelete(backupFilePath.c_str());
+
+  if(!fileDeleted) {
+    return false;
+  }
 
   return true;
 }

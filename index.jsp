@@ -81,7 +81,15 @@
                     <td>${backup.source}</td>
                     <td>${backup.destination}</td>
                     <td>${backup.timestamp.toString()}</td>
-                    <td><a class="restore-btn waves-effect waves-teal btn-flat grey lighten-5" href="${path}/backups/restore?id=${backup.id}">Restore</a></td>
+                    <td><a class="restore-btn waves-effect waves-teal btn-flat grey lighten-5" href="#">Restore</a></td>
+                    <td>
+                      <a href="#">
+                        <img
+                          class="delete-icon"
+                          src="${path}/images/delete_icon.svg"
+                        >
+                      </a>
+                    </td>
                   </tr>
                 </c:forEach>
               </tbody>
@@ -97,7 +105,7 @@
       <div class="row">
         <div class=" col s8 modal-content">
           <h5 class="modal-title">Enter password</h5>
-          <form action="${path}/backups/restore" method="GET">
+          <form id="password-form" action="" method="GET">
             <div class="valign-wrapper">
               <div class="hide valign input-field col s2">
                 <input value="" name="id" id="id" type="text" class="validate">
@@ -108,7 +116,7 @@
                 <label for="password">Password</label>
               </div>
               <div class="valign input-field col s1">
-                <button type="submit" class="waves-effect waves-light btn">Restore</button>
+                <button type="submit" class="password-submit-btn waves-effect waves-light btn"></button>
               </div>
             </div>
           </form>
@@ -126,18 +134,33 @@
       
       backupsTable.addEventListener('click', (e) => {
         e.preventDefault();
-        if(!e.target.classList.contains("restore-btn")) {
-          return
+        if(e.target.classList.contains("restore-btn")) {
+          const target = e.target.closest('tr');
+          const backupId = target.querySelector('.id').textContent;
+          
+          const form = restoreModal.querySelector('#password-form');
+          const idInputEl = restoreModal.querySelector('.input-field > #id');
+          const passwordSubmitBtn = restoreModal.querySelector('.password-submit-btn');
+          
+          form.setAttribute('action', '${path}/backups/restore');
+          idInputEl.setAttribute("value", backupId);
+          passwordSubmitBtn.textContent = 'Restore';
+
+          modal.open();
+        } else if(e.target.classList.contains("delete-icon")) {
+          
+          const target = e.target.closest('tr');
+          const backupId = target.querySelector('.id').textContent;
+          
+          const form = restoreModal.querySelector('#password-form');
+          const idInputEl = restoreModal.querySelector('.input-field > #id');
+          const passwordSubmitBtn = restoreModal.querySelector('.password-submit-btn');
+          
+          form.setAttribute('action', '${path}/backups/delete');
+          idInputEl.setAttribute("value", backupId);
+          passwordSubmitBtn.textContent = 'Delete';
+          modal.open();
         }
-
-        const target = e.target.closest('tr');
-        const backupId = target.querySelector('.id').textContent;
-        
-        const idInputEl = restoreModal.querySelector('.input-field > #id');
-
-        idInputEl.setAttribute("value", backupId);
-
-        modal.open();
       });
     </script>
 
